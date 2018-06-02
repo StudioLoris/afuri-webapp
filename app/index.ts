@@ -3,6 +3,14 @@ import * as ReactDOM from 'react-dom';
 import { AppMain } from '@/component/Main/';
 import { appService } from '@/service/app';
 
+declare global {
+  interface Window {
+    fbAsyncInit : () => void;
+    FB : any;
+  }
+
+}
+
 (async () => {
 
     if (appService.isDEBUG) {
@@ -12,8 +20,9 @@ import { appService } from '@/service/app';
         } catch(err) {
           console.error('Failed to inject debug service', err);
         }
-
     }
+
+    import(/* webpackChunkName: "facebookSDK" */ '@/service/oauth/facebook');
 
     ReactDOM.render(AppMain, document.getElementById('content'));
 
