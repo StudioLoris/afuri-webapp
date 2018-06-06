@@ -1,7 +1,6 @@
 {
   "extends": ["tslint:latest"],
   "rules": {
-    "experimentalDecorators": true,
     "indent": [true, "spaces", 4],
     "no-implicit-dependencies": false,
     "jsx-wrap-multiline": false,

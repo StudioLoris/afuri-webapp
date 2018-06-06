@@ -1,4 +1,4 @@
-import { observable } from 'mobx';
+import { observable, computed } from 'mobx';
 
 interface AuthResponse {
     accessToken : string;
@@ -21,13 +21,15 @@ interface FacebookSDK {
             version : string
         }
     ) => void;
-    getLoginStatus : (cb : (isLogin : any) => void) => void;
-    login : (cd : (res : any) => void) => void;
+    getLoginStatus : (cb : (res : StatusResponse) => void) => void;
+    login : (cb : (res : StatusResponse) => void) => void;
+    logout : (cb : (res : StatusResponse) => void) => void;
 }
 
 const FB_STATUS = {
-    connected: 'connected',
-    unknown: 'unknown'
+    CONNECTED: 'connected',
+    UNKNOWN: 'unknown',
+    NOT_AUTHORIZED: 'not_authorized',
 };
 
 class Facebook {
@@ -37,7 +39,7 @@ class Facebook {
 
     @observable private userID : string;
     @observable private userToken : string;
-    @observable private status : string;
+    @observable private status : string = FB_STATUS.UNKNOWN;
 
     constructor(appId : string) {
         this.appId = appId;
@@ -50,6 +52,13 @@ class Facebook {
 
     public login() {
         this.sdk.login(this.handleStatusResponse);
+    }
+    public logout() {
+        this.sdk.logout(this.handleStatusResponse);
+    }
+
+    @computed public get isLoggedIn() : boolean {
+        return !!((this.status === FB_STATUS.CONNECTED) && this.userID);
     }
 
     private init() {
@@ -78,9 +87,9 @@ class Facebook {
         this.status = status;
         this.userID = userID;
         this.userToken = accessToken;
-        console.log(this.status);
+        console.log(this.status, this.userID);
     }
 }
 
 const fbSDK = new Facebook('1934419210183456');
-export { fbSDK };
+export default fbSDK;
