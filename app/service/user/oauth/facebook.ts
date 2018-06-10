@@ -1,4 +1,5 @@
 import { observable, computed } from 'mobx';
+import { UserProfile } from '../interface';
 
 interface AuthResponse {
     accessToken : string;
@@ -22,8 +23,18 @@ interface FacebookSDK {
         }
     ) => void;
     getLoginStatus : (cb : (res : StatusResponse) => void) => void;
-    login : (cb : (res : StatusResponse) => void) => void;
-    logout : (cb : (res : StatusResponse) => void) => void;
+    login : (
+        cb : (res : StatusResponse) => void,
+        option : { scope : string }
+    ) => void;
+    logout : (
+        cb : (res : StatusResponse) => void
+    ) => void;
+    api : (
+        endpoint : string,
+        params : { fields : string },
+        cb : (res : object) => void
+    ) => void;
 }
 
 const FB_STATUS = {
@@ -33,6 +44,8 @@ const FB_STATUS = {
 };
 
 class Facebook {
+
+    @observable public userProfile : UserProfile;
 
     private sdk : FacebookSDK;
     private appId : string;
@@ -51,10 +64,13 @@ class Facebook {
     }
 
     public login() {
-        this.sdk.login(this.handleStatusResponse);
+        this.sdk.login(this.handleStatusResponse, { scope: 'public_profile,email' });
     }
     public logout() {
         this.sdk.logout(this.handleStatusResponse);
+    }
+    @computed public get profilePicture() : string {
+        return this.userID ? `https://graph.facebook.com/${this.userID}/picture` : null;
     }
 
     @computed public get isLoggedIn() : boolean {
@@ -87,7 +103,16 @@ class Facebook {
         this.status = status;
         this.userID = userID;
         this.userToken = accessToken;
-        console.log(this.status, this.userID);
+        if (this.status === FB_STATUS.CONNECTED) {
+            this.updateUserProfile();
+        }
+        console.log(statusResponse);
+    }
+    private updateUserProfile() {
+        this.sdk.api('/me', { fields: 'email,name,picture' }, (res : { email : string, name : string }) => {
+            const { email, name } = res;
+            this.userProfile = { email, username: name };
+        });
     }
 }
 

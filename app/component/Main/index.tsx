@@ -15,6 +15,7 @@ const Test = Loadable({
 class Main extends React.Component {
 
     public render() {
+        const { username, email } = userService.profileData;
         return (
           <div>
               <Test />
@@ -25,6 +26,8 @@ class Main extends React.Component {
                     :
                     <Button onClick={this.clickFBlogin}>login to facebook</Button>
                 }
+                <img src={userService.profilePicture} />
+                <div> {username} - {email} </div>
             </div>
           </div>
         );
