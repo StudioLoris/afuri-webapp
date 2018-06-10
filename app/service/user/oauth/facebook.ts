@@ -1,5 +1,5 @@
 import { observable, computed } from 'mobx';
-import { UserProfile } from '../interface';
+import { UserProfile, LoginInfo, OAUTH_PROVIDER } from '../interface';
 
 interface AuthResponse {
     accessToken : string;
@@ -49,12 +49,14 @@ class Facebook {
 
     private sdk : FacebookSDK;
     private appId : string;
+    private userValidator : (loginInfo : LoginInfo) => void;
 
     @observable private userID : string;
     @observable private userToken : string;
     @observable private status : string = FB_STATUS.UNKNOWN;
 
-    constructor(appId : string) {
+    constructor(appId : string, userValidator : (loginInfo : LoginInfo) => void) {
+        this.userValidator = userValidator;
         this.appId = appId;
         window.fbAsyncInit = () => {
             this.sdk = window.FB;
@@ -63,7 +65,7 @@ class Facebook {
         this.loadFacebookSDK(document, 'script', 'facebook-jssdk');
     }
 
-    public login() {
+    public login(userValidator : (loginInfo : LoginInfo) => void) {
         this.sdk.login(this.handleStatusResponse, { scope: 'public_profile,email' });
     }
     public logout() {
@@ -97,24 +99,34 @@ class Facebook {
         js.src = 'https://connect.facebook.net/en_US/sdk.js';
         fjs.parentNode.insertBefore(js, fjs);
     }
-    private handleStatusResponse = (statusResponse : StatusResponse) => {
+    private handleStatusResponse = async (statusResponse : StatusResponse) => {
         const { status, authResponse } = statusResponse;
         const { userID, accessToken } = authResponse || { userID: '', accessToken: '' };
         this.status = status;
         this.userID = userID;
         this.userToken = accessToken;
         if (this.status === FB_STATUS.CONNECTED) {
-            this.updateUserProfile();
+            await this.updateUserProfile();
+            if (this.userValidator) {
+                const { email } = this.userProfile;
+                /* After we login from Facebook, we check user status from Afuri server */
+                this.userValidator({
+                    provider: OAUTH_PROVIDER.FACEBOOK,
+                    email,
+                });
+            }
         }
         console.log(statusResponse);
     }
     private updateUserProfile() {
-        this.sdk.api('/me', { fields: 'email,name,picture' }, (res : { email : string, name : string }) => {
-            const { email, name } = res;
-            this.userProfile = { email, username: name };
+        return new Promise((res) => {
+            this.sdk.api('/me', { fields: 'email,name,picture' }, (data : { email : string, name : string }) => {
+                const { email, name } = data;
+                this.userProfile = { email, username: name };
+                res();
+            });
         });
     }
 }
 
-const fbSDK = new Facebook('1934419210183456');
-export default fbSDK;
+export default Facebook;

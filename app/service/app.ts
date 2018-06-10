@@ -1,3 +1,9 @@
+import apiService from '@/service/api';
+
+apiService.getRoot().then((res) => {
+    console.log('api root: ', res);
+});
+
 declare const MODE : string;
 
 class AppService {

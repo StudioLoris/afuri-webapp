@@ -1,27 +1,39 @@
 import { observable, computed, observe, autorun } from 'mobx';
-import facebook from './oauth/facebook';
-import { UserProfile } from './interface';
+import Facebook from './oauth/facebook';
+import { UserProfile, LoginInfo } from './interface';
+import apiService from '@/service/api';
 
 class UserService {
 
     @observable public isLoggedIn : boolean = false;
+    @observable public loginProvider : string;
+
+    private facebook : Facebook;
 
     constructor() {
-        autorun(() => this.isLoggedIn = facebook.isLoggedIn);
+        this.facebook = new Facebook('1934419210183456', this.initUser);
+        autorun(() => this.isLoggedIn = this.facebook.isLoggedIn);
     }
 
     public login() {
-        facebook.login();
+        this.facebook.login(this.initUser);
     }
     public logout() {
-        facebook.logout();
+        this.facebook.logout();
     }
     @computed public get profilePicture() : string {
-        return facebook.profilePicture;
+        return this.facebook.profilePicture;
     }
     @computed public get profileData() : UserProfile {
-        const fb = facebook.userProfile;
+        const fb = this.facebook.userProfile;
         return fb || { username: '', email: '' };
+    }
+
+    private initUser = async (loginInfo : LoginInfo) => {
+        const { provider, email } = loginInfo;
+        this.loginProvider = provider;
+        // console.log(loginInfo);
+        await apiService.checkUser(loginInfo);
     }
 
 }

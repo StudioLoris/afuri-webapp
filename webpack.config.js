@@ -90,15 +90,13 @@ module.exports = (env, options) => {
             }
         },
         devServer: {
-            /*
             proxy: {
                 "/api": {
-                    target: "http://localhost:1234/",
+                    target: "http://localhost:3001/",
                     secure: false,
                     pathRewrite: {"^/api" : ""}
                 }
             }
-            */
         }
     }
 };
