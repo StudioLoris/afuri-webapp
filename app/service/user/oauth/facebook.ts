@@ -113,6 +113,7 @@ class Facebook {
                 this.userValidator({
                     provider: OAUTH_PROVIDER.FACEBOOK,
                     email,
+                    token: accessToken
                 });
             }
         }

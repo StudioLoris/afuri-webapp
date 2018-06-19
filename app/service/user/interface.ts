@@ -8,6 +8,7 @@ export interface UserProfile {
 }
 
 export interface LoginInfo {
+    token : string;
     provider : string;
     email : string;
 }

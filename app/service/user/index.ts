@@ -1,6 +1,6 @@
-import { observable, computed, observe, autorun } from 'mobx';
+import { observable, computed, autorun } from 'mobx';
 import Facebook from './oauth/facebook';
-import { UserProfile, LoginInfo } from './interface';
+import { UserProfile, LoginInfo, OAUTH_PROVIDER } from './interface';
 import apiService from '@/service/api';
 
 class UserService {
@@ -15,24 +15,41 @@ class UserService {
         autorun(() => this.isLoggedIn = this.facebook.isLoggedIn);
     }
 
-    public login() {
-        this.facebook.login(this.initUser);
+    public login(provider? : string) {
+        switch(provider) {
+            case OAUTH_PROVIDER.FACEBOOK:
+            default:
+                this.facebook.login(this.initUser);
+        }
     }
     public logout() {
-        this.facebook.logout();
+        switch(this.loginProvider) {
+            case OAUTH_PROVIDER.FACEBOOK:
+                this.facebook.logout();
+                break;
+            default:
+                throw new Error('Logging out without oauth provider');
+        }
     }
     @computed public get profilePicture() : string {
-        return this.facebook.profilePicture;
+        switch (this.loginProvider) {
+            case OAUTH_PROVIDER.FACEBOOK:
+                return this.facebook.profilePicture;
+        }
     }
     @computed public get profileData() : UserProfile {
-        const fb = this.facebook.userProfile;
-        return fb || { username: '', email: '' };
+        switch (this.loginProvider) {
+            case OAUTH_PROVIDER.FACEBOOK:
+                return this.facebook.userProfile;
+            default:
+                return { username: '', email: '' };
+        }
+
     }
 
     private initUser = async (loginInfo : LoginInfo) => {
-        const { provider, email } = loginInfo;
+        const { provider } = loginInfo;
         this.loginProvider = provider;
-        // console.log(loginInfo);
         await apiService.checkUser(loginInfo);
     }
 
