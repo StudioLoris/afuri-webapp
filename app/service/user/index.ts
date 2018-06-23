@@ -23,6 +23,7 @@ class UserService {
         }
     }
     public logout() {
+        apiService.logout();
         switch(this.loginProvider) {
             case OAUTH_PROVIDER.FACEBOOK:
                 this.facebook.logout();
@@ -32,19 +33,23 @@ class UserService {
         }
     }
     @computed public get profilePicture() : string {
-        switch (this.loginProvider) {
-            case OAUTH_PROVIDER.FACEBOOK:
-                return this.facebook.profilePicture;
+        if (this.isLoggedIn) {
+            switch (this.loginProvider) {
+                case OAUTH_PROVIDER.FACEBOOK:
+                    return this.facebook.profilePicture;
+            }
         }
     }
     @computed public get profileData() : UserProfile {
-        switch (this.loginProvider) {
-            case OAUTH_PROVIDER.FACEBOOK:
-                return this.facebook.userProfile;
-            default:
-                return { username: '', email: '' };
+        if (this.isLoggedIn) {
+            switch (this.loginProvider) {
+                case OAUTH_PROVIDER.FACEBOOK:
+                    return this.facebook.userProfile;
+                default:
+                    return { username: '', email: '' };
+            }
         }
-
+        return { username: '', email: '' };
     }
 
     private initUser = async (loginInfo : LoginInfo) => {
