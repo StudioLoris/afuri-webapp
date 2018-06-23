@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 
-const Button = styled.div`
+const Button = styled.button`
     border: 1px solid black;
-    padding: 10px 20px;
+    border-radius: 5px;
+    padding: 10px 15px;
 `;
 
 export default Button;

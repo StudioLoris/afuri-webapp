@@ -1,46 +1,20 @@
 import * as React from 'react';
-import { observer } from 'mobx-react';
-import Loadable from 'react-loadable';
-import Logo from '@/assets/logo.png';
-import Loading from '@/component/Loading';
-import userService from '@/service/user';
-import { Button } from '@/UI';
+import { BrowserRouter, Route } from 'react-router-dom';
+import Home from '@/component/Home';
+import Header from '@/component/Header';
 
-const Test = Loadable({
-    loader: () => import(/* webpackChunkName: "Header" */ '@/component/Header'),
-    loading: Loading
-});
-
-@observer
 class Main extends React.Component {
 
     public render() {
-        const { username, email } = userService.profileData;
         return (
-          <div>
-              <Test />
-
             <div>
-                { userService.isLoggedIn ?
-                    <Button onClick={this.clickFBlogout}>logout</Button>
-                    :
-                    <Button onClick={this.clickFBlogin}>login to facebook</Button>
-                }
-                <img src={userService.profilePicture} />
-                <div> {username} - {email} </div>
+                <Route exact path='/' component={Home} />
+                <Route path='/test' component={Header} />
             </div>
-          </div>
         );
-    }
-
-    private clickFBlogin = () => {
-        userService.login();
-    }
-    private clickFBlogout = () => {
-        userService.logout();
     }
 }
 
-const AppMain = <Main />;
+const AppMain = <BrowserRouter><Main /></BrowserRouter>;
 
 export { AppMain };

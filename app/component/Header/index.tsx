@@ -1,14 +1,9 @@
-import * as React from 'react';
-import Logo from '@/assets/logo.png';
+import Loadable from 'react-loadable';
+import Loading from '@/component/Loading';
 
-class Header extends React.Component {
-    public render() {
-        return (
-          <div style={{height: '40px', borderBottom: '1px solid #CCC', alignItems: 'center'}}>
-              <img style={{height: '35px'}} src={Logo} />
-          </div>
-        );
-    }
-}
+const HeaderLoadable = Loadable({
+    loader: () => import(/* webpackChunkName: "Header" */ './Header'),
+    loading: Loading
+});
 
-export default Header;
+export default HeaderLoadable;
