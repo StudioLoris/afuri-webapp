@@ -12,17 +12,21 @@ const Wrapper = styled.div`
     height: 100px;
     align-items: center;
 `;
-
+const CenterText = styled.div`
+    text-align: center;
+`;
 const Name = styled.span`
     font-size: x-large;
     font-weight: bold;
-    padding: 5px 0px;
     color: ${(props) => props.theme.TEXT_DARK};
+`;
+const Description = styled.span`
+    color: ${(props) => props.theme.TEXT_DARK};
+    font-size: small;
 `;
 const LogoItem = styled.img`
     margin: 10px;
     width: 80px;
-    border-radius: 10px;
 `;
 
 const InfoArea = styled.div`
@@ -82,6 +86,16 @@ export default class Dashboard extends React.Component {
                                 </InfoItem>
                             </Row>
                         </List>
+                    )}
+                    {!userService.isLoggedIn && (
+                        <React.Fragment>
+                            <CenterText>
+                                <Name>Survey City</Name>
+                            </CenterText>
+                            <CenterText>
+                                <Description>Lovely & Fun Survey Platform</Description>
+                            </CenterText>
+                        </React.Fragment>
                     )}
                 </InfoArea>
           </Wrapper>
