@@ -7,6 +7,9 @@ import bank from '@/assets/bank.svg';
 import exit from '@/assets/exit.svg';
 import enter from '@/assets/enter.svg';
 import play from '@/assets/play.svg';
+import slot from '@/assets/slotmachine.svg';
+import cat from '@/assets/cat.svg';
+import lottery from '@/assets/lottery.svg';
 import Dashboard from './components/Dashboard';
 
 const Wrapper = styled.div`
@@ -56,10 +59,28 @@ const Footer = styled.div`
     color: ${(props) => props.theme.TEXT_LIGHT};
 `;
 
+const SubItems = styled.div`
+    border-top: 2px solid ${(props) => props.theme.YELLOW};
+    background-color: rgba(255, 255, 255, 0.3);
+`;
+
+interface State {
+    showFunPlace : boolean;
+}
+interface Props {
+
+}
+
 @observer
-export default class SideBar extends React.Component {
+export default class SideBar extends React.Component<Props, State> {
+
+    public state : State = {
+        showFunPlace: false
+    };
+
     public render() {
         const { username, email } = userService.profileData;
+        const { showFunPlace } = this.state;
         return (
             <Wrapper>
                 <Dashboard />
@@ -76,10 +97,26 @@ export default class SideBar extends React.Component {
                                 <ItemIcon><Icon src={bank} /></ItemIcon>
                                 <ItemText>Bank Account</ItemText>
                             </Item>
-                            <Item>
+                            <Item onClick={this.toggleFunplaces}>
                                 <ItemIcon><Icon src={play} /></ItemIcon>
                                 <ItemText>Fun Places</ItemText>
                             </Item>
+                            {showFunPlace && (
+                                <SubItems>
+                                    <Item>
+                                        <ItemIcon><Icon src={slot} /></ItemIcon>
+                                        <ItemText>Slot Machine</ItemText>
+                                    </Item>
+                                    <Item>
+                                        <ItemIcon><Icon src={lottery} /></ItemIcon>
+                                        <ItemText>Lottery</ItemText>
+                                    </Item>
+                                    <Item>
+                                        <ItemIcon><Icon src={cat} /></ItemIcon>
+                                        <ItemText>Pet</ItemText>
+                                    </Item>
+                                </SubItems>
+                            )}
                             <Item onClick={this.clicklogout}>
                                 <ItemIcon><Icon src={exit} /></ItemIcon>
                                 <ItemText>Log Out</ItemText>
@@ -94,10 +131,7 @@ export default class SideBar extends React.Component {
         );
     }
 
-    private clickLogin = () => {
-        userService.login();
-    }
-    private clicklogout = () => {
-        userService.logout();
-    }
+    private toggleFunplaces = () => this.setState({ showFunPlace : !this.state.showFunPlace });
+    private clickLogin = () => userService.login();
+    private clicklogout = () => userService.logout();
 }
