@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import userService from '@/service/user';
 import { Button } from '@/UI';
 import bank from '@/assets/bank.svg';
@@ -10,6 +10,8 @@ import play from '@/assets/play.svg';
 import slot from '@/assets/slotmachine.svg';
 import cat from '@/assets/cat.svg';
 import lottery from '@/assets/lottery.svg';
+import book from '@/assets/book.svg';
+import manage from '@/assets/manage.svg';
 import Dashboard from './components/Dashboard';
 
 const Wrapper = styled.div`
@@ -49,7 +51,7 @@ const ItemIcon = styled.div`
     justify-content: flex-end;
 `;
 const ItemText = styled.div`
-    flex: 2;
+    flex: 3;
 `;
 
 const Footer = styled.div`
@@ -58,8 +60,18 @@ const Footer = styled.div`
     text-align: center;
     color: ${(props) => props.theme.TEXT_LIGHT};
 `;
+const Expand = keyframes`
+  from {
+    max-height: 0px;
+  }
 
+  to {
+    max-height: 500px;
+  }
+`;
 const SubItems = styled.div`
+    overflow: hidden;
+    animation: ${Expand} 0.5s ease-in;
     border-top: 2px solid ${(props) => props.theme.YELLOW};
     background-color: rgba(255, 255, 255, 0.3);
 `;
@@ -91,6 +103,10 @@ export default class SideBar extends React.Component<Props, State> {
                             <ItemText>Login</ItemText>
                         </Item>
                     )}
+                    <Item>
+                        <ItemIcon><Icon src={book} /></ItemIcon>
+                        <ItemText>Take Survey & Vote</ItemText>
+                    </Item>
                     {userService.isLoggedIn && (
                         <React.Fragment>
                             <Item>
@@ -117,6 +133,10 @@ export default class SideBar extends React.Component<Props, State> {
                                     </Item>
                                 </SubItems>
                             )}
+                            <Item>
+                                <ItemIcon><Icon src={manage} /></ItemIcon>
+                                <ItemText>Manage My Survey</ItemText>
+                            </Item>
                             <Item onClick={this.clicklogout}>
                                 <ItemIcon><Icon src={exit} /></ItemIcon>
                                 <ItemText>Log Out</ItemText>
