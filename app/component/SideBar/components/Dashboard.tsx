@@ -9,6 +9,8 @@ import userService from '@/service/user';
 const Wrapper = styled.div`
     align-items: flex-start;
     display: flex;
+    height: 100px;
+    align-items: center;
 `;
 
 const Name = styled.span`
@@ -27,7 +29,7 @@ const InfoArea = styled.div`
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 5px 20px;
+    padding: 5px 10px;
 `;
 const List = styled.div`
     display: flex;
@@ -51,7 +53,6 @@ const ProfileImg = styled(InfoIcon)`
 `;
 
 const InfoText = styled.span`
-    font-size: small;
     color: ${(props) => props.theme.TEXT_DARK};
 `;
 
@@ -62,7 +63,6 @@ export default class Dashboard extends React.Component {
           <Wrapper>
                 <LogoItem src={Logo} />
                 <InfoArea>
-                    <Name>Survey City</Name>
                     {userService.isLoggedIn && (
                         <List>
                             <Row>
