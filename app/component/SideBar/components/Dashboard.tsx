@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Logo from '@/assets/logo.svg';
 import Coin from '@/assets/coin.svg';
@@ -7,6 +6,8 @@ import Rank3 from '@/assets/rank_3.svg';
 import Girl1 from '@/assets/girl_1.svg';
 import userService from '@/service/user';
 import { observer } from 'mobx-react';
+import ROUTES from '@/constants/routes';
+import appService from '@/service/app';
 
 const Wrapper = styled.div`
     align-items: flex-start;
@@ -68,9 +69,7 @@ export default class Dashboard extends React.Component {
         const { username } = userService.profileData;
         return (
           <Wrapper>
-                <Link to='/'>
-                    <LogoItem src={Logo} />
-                </Link>
+                <LogoItem src={Logo} onClick={() => appService.go(ROUTES.HOME)}/>
                 <InfoArea>
                     {userService.isLoggedIn && (
                         <List>

@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react';
-import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
+import { Router, Route, Redirect, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 import Home from '@/component/Home';
 import Header from '@/component/Header';
 import { theme } from '@/UI';
-import userService from '@/service/user';
+import appService from '@/service/app';
 
 const AppArea = styled.div`
     flex: 1;
@@ -29,9 +29,9 @@ class Main extends React.Component {
 
 const AppMain = (
     <ThemeProvider theme={theme}>
-        <BrowserRouter>
+        <Router history={appService.browserHistory}>
             <Main />
-        </BrowserRouter>
+        </Router>
     </ThemeProvider>
 );
 

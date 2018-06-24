@@ -3,10 +3,11 @@ import styled from 'styled-components';
 import { observer } from 'mobx-react';
 import { Link, Route, Switch, RouteComponentProps } from 'react-router-dom';
 import SideBar from '@/component/SideBar';
-import { appService } from '@/service/app';
+import appService from '@/service/app';
 import userService from '@/service/user';
 import Landing from '@/component/LandingPage';
 import Bank from '@/component/Bank';
+import ROUTES from '@/constants/routes';
 
 const Wrapper = styled.div`
     flex: 1;
@@ -35,8 +36,8 @@ export default class Home extends React.Component<Props> {
                     </SideBarDesktopWrapper>
                 )}
                 <Switch location={location}>
-                    <Route excat path='/bank' component={Bank} />
-                    <Route excat path='/' component={Landing} />
+                    <Route excat path={ROUTES.BANK} component={Bank} />
+                    <Route excat path={ROUTES.HOME} component={Landing} />
                 </Switch>
             </Wrapper>
         );

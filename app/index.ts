@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { AppMain } from '@/component/Main/';
-import { appService } from '@/service/app';
+import appService from '@/service/app';
 import userService from '@/service/user';
 
 declare global {
@@ -22,8 +22,6 @@ declare global {
           console.error('Failed to inject debug service', err);
         }
     }
-
-    // import(/* webpackChunkName: "facebookSDK" */ '@/service/oauth/facebook');
 
     ReactDOM.render(AppMain, document.getElementById('content'));
 

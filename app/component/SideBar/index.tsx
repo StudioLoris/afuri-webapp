@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { Link } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import userService from '@/service/user';
+import appService from '@/service/app';
 import { Button } from '@/UI';
 import bank from '@/assets/bank.svg';
 import exit from '@/assets/exit.svg';
@@ -13,6 +13,7 @@ import cat from '@/assets/cat.svg';
 import lottery from '@/assets/lottery.svg';
 import book from '@/assets/book.svg';
 import manage from '@/assets/manage.svg';
+import ROUTES from '@/constants/routes';
 import Dashboard from './components/Dashboard';
 
 const Wrapper = styled.div`
@@ -44,6 +45,9 @@ const Item = styled.div`
     &:hover {
         cursor: pointer;
         background-color: rgba(255, 255, 255, 0.3);
+    }
+    & > a {
+        text-decoration: none;
     }
 `;
 const ItemIcon = styled.div`
@@ -111,12 +115,10 @@ export default class SideBar extends React.Component<Props, State> {
                     </Item>
                     {userService.isLoggedIn && (
                         <React.Fragment>
-                            <Link to='/bank'>
-                                <Item>
-                                    <ItemIcon><Icon src={bank} /></ItemIcon>
-                                    <ItemText>Bank Account</ItemText>
-                                </Item>
-                            </Link>
+                            <Item onClick={() => appService.go(ROUTES.BANK)}>
+                                <ItemIcon><Icon src={bank} /></ItemIcon>
+                                <ItemText>Bank Account</ItemText>
+                            </Item>
                             <Item onClick={this.toggleFunplaces}>
                                 <ItemIcon><Icon src={play} /></ItemIcon>
                                 <ItemText>Fun Places</ItemText>
