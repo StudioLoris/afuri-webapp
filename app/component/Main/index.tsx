@@ -1,9 +1,10 @@
-import * as React from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import React, { PureComponent } from 'react';
+import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 import Home from '@/component/Home';
 import Header from '@/component/Header';
 import { theme } from '@/UI';
+import userService from '@/service/user';
 
 const AppArea = styled.div`
     flex: 1;
@@ -17,8 +18,10 @@ class Main extends React.Component {
     public render() {
         return (
             <AppArea>
-                <Route exact path='/' component={Home} />
-                <Route path='/test' component={Header} />
+                <Switch>
+                    <Route excat path='/test' component={Header} />
+                    <Route render={(props) => <Home {...props} />} />
+                </Switch>
             </AppArea>
         );
     }

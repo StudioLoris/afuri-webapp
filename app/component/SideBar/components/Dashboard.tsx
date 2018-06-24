@@ -1,10 +1,12 @@
-import * as React from 'react';
+import React, { PureComponent } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Logo from '@/assets/logo.svg';
 import Coin from '@/assets/coin.svg';
 import Rank3 from '@/assets/rank_3.svg';
 import Girl1 from '@/assets/girl_1.svg';
 import userService from '@/service/user';
+import { observer } from 'mobx-react';
 
 const Wrapper = styled.div`
     align-items: flex-start;
@@ -60,12 +62,15 @@ const InfoText = styled.span`
     color: ${(props) => props.theme.TEXT_DARK};
 `;
 
+@observer
 export default class Dashboard extends React.Component {
     public render() {
         const { username } = userService.profileData;
         return (
           <Wrapper>
-                <LogoItem src={Logo} />
+                <Link to='/'>
+                    <LogoItem src={Logo} />
+                </Link>
                 <InfoArea>
                     {userService.isLoggedIn && (
                         <List>

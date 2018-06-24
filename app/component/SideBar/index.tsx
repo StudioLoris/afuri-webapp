@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
+import { Link } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import userService from '@/service/user';
 import { Button } from '@/UI';
@@ -73,6 +74,7 @@ const SubItems = styled.div`
     overflow: hidden;
     animation: ${Expand} 0.5s ease-in;
     border-top: 2px solid ${(props) => props.theme.YELLOW};
+    border-bottom: 2px solid ${(props) => props.theme.YELLOW};
     background-color: rgba(255, 255, 255, 0.3);
 `;
 
@@ -109,10 +111,12 @@ export default class SideBar extends React.Component<Props, State> {
                     </Item>
                     {userService.isLoggedIn && (
                         <React.Fragment>
-                            <Item>
-                                <ItemIcon><Icon src={bank} /></ItemIcon>
-                                <ItemText>Bank Account</ItemText>
-                            </Item>
+                            <Link to='/bank'>
+                                <Item>
+                                    <ItemIcon><Icon src={bank} /></ItemIcon>
+                                    <ItemText>Bank Account</ItemText>
+                                </Item>
+                            </Link>
                             <Item onClick={this.toggleFunplaces}>
                                 <ItemIcon><Icon src={play} /></ItemIcon>
                                 <ItemText>Fun Places</ItemText>
