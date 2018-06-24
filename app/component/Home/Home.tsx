@@ -12,6 +12,9 @@ import Bank from '@/component/Bank';
 import ROUTES from '@/constants/routes';
 import Menu from '@/assets/menu.svg';
 
+const BREAK_POINT = 840;
+const MOBILE_BAR_MAX_WIDTH = 450;
+
 const Wrapper = styled.div`
     flex: 1;
     display: flex;
@@ -39,11 +42,13 @@ const Appear = keyframes`
     opacity: 1;
   }
 `;
+
 const SideBarMobileWrapper = styled.div`
-    animation: ${Appear} 0.5s ease-out;
+    animation: ${Appear} 0.3s ease-out;
     position: fixed;
     height: 100%;
     width: 100%;
+    max-width: ${MOBILE_BAR_MAX_WIDTH}px;
     display: flex;
     flex-direction: column;
 `;
@@ -70,8 +75,6 @@ const PrivateRoute = (
         )}
     />
 );
-
-const BREAK_POINT = 840;
 
 interface Props extends RouteComponentProps<any> {
 
