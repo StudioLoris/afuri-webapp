@@ -1,12 +1,12 @@
 import Button from './Button';
 
+import COLOR from './COLOR';
+
 const theme = {
-    YELLOW_LIGHT: '#FFEAA4',
-    YELLOW: '#edc951',
-    TEXT_LIGHT: '#A88B2A',
-    TEXT_DARK: '#41360E',
-    RED: '#FF4136',
-    BLUE: '#0074D9',
+    ...COLOR,
+    PRIMARY_BG: COLOR.YELLOW,
+    PRIMARY_STRONG_TEXT: COLOR.YELLOW_DARKER,
+    PRIMARY_LIGHT_TEXT: COLOR.YELLOW_DARK,
 };
 
 export {

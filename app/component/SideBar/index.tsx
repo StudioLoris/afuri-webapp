@@ -18,7 +18,7 @@ import Dashboard from './components/Dashboard';
 
 const Wrapper = styled.div`
     height: 100%;
-    background-color: ${(props) => props.theme.YELLOW};
+    background-color: ${(props) => props.theme.PRIMARY_BG};
     display: flex;
     flex-direction: column;
 `;
@@ -39,7 +39,7 @@ const Item = styled.div`
     align-items: center;
     justify-content: center;
     padding: 15px;
-    color: ${(props) => props.theme.TEXT_DARK};
+    color: ${(props) => props.theme.PRIMARY_STRONG_TEXT};
     font-weight: bold;
     font-size: large;
     &:hover {
@@ -63,7 +63,7 @@ const Footer = styled.div`
     padding: 5px;
     font-size: small;
     text-align: center;
-    color: ${(props) => props.theme.TEXT_LIGHT};
+    color: ${(props) => props.theme.PRIMARY_LIGHT_TEXT};
 `;
 const Expand = keyframes`
   from {
@@ -77,8 +77,8 @@ const Expand = keyframes`
 const SubItems = styled.div`
     overflow: hidden;
     animation: ${Expand} 0.5s ease-in;
-    border-top: 2px solid ${(props) => props.theme.YELLOW};
-    border-bottom: 2px solid ${(props) => props.theme.YELLOW};
+    border-top: 2px solid ${(props) => props.theme.PRIMARY_BG};
+    border-bottom: 2px solid ${(props) => props.theme.PRIMARY_BG};
     background-color: rgba(255, 255, 255, 0.3);
 `;
 

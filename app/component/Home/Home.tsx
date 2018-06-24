@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { observer } from 'mobx-react';
-import { Link, Route, Switch, RouteComponentProps } from 'react-router-dom';
+import { Route, Switch, RouteComponentProps, Redirect } from 'react-router-dom';
+import PrivateComponentWrapper from '@/component/HOC/PrivateComponentWrapper';
 import SideBar from '@/component/SideBar';
 import appService from '@/service/app';
 import userService from '@/service/user';
@@ -23,10 +24,24 @@ interface Props extends RouteComponentProps<any> {
 
 }
 
+const PrivateRoute = (
+    { Component, path } : { Component : any, path : string }
+) => (
+    <Route
+        exact
+        path={path}
+        render={() => (
+            <PrivateComponentWrapper>
+                <Component />
+            </PrivateComponentWrapper>
+        )}
+    />
+);
+
 @observer
 export default class Home extends React.Component<Props> {
     public render() {
-        console.log(this.props);
+        // console.log(this.props);
         const { location } = this.props;
         return (
             <Wrapper>
@@ -36,8 +51,9 @@ export default class Home extends React.Component<Props> {
                     </SideBarDesktopWrapper>
                 )}
                 <Switch location={location}>
-                    <Route excat path={ROUTES.BANK} component={Bank} />
+                    <PrivateRoute path={ROUTES.BANK} Component={Bank} />
                     <Route excat path={ROUTES.HOME} component={Landing} />
+                    <Redirect to={{pathname: ROUTES.HOME}} />
                 </Switch>
             </Wrapper>
         );

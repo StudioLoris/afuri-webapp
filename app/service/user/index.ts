@@ -5,6 +5,7 @@ import apiService from '@/service/api';
 
 class UserService {
 
+    @observable public loadingInitStatus : boolean = true;
     @observable public isLoggedIn : boolean = false;
     @observable public loginProvider : string;
 
@@ -13,13 +14,16 @@ class UserService {
     constructor() {
         this.facebook = new Facebook('1934419210183456', this.initUser);
         autorun(() => this.isLoggedIn = this.facebook.isLoggedIn);
+        autorun(() => {
+            this.loadingInitStatus = this.facebook.loadingInitStatus;
+        });
     }
 
     public login(provider? : string) {
         switch(provider) {
             case OAUTH_PROVIDER.FACEBOOK:
             default:
-                this.facebook.login(this.initUser);
+                this.facebook.login();
         }
     }
     public logout() {

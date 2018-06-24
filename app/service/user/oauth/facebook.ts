@@ -45,6 +45,7 @@ const FB_STATUS = {
 
 class Facebook {
 
+    @observable public loadingInitStatus : boolean = true;
     @observable public userProfile : UserProfile;
 
     private sdk : FacebookSDK;
@@ -65,7 +66,7 @@ class Facebook {
         this.loadFacebookSDK(document, 'script', 'facebook-jssdk');
     }
 
-    public login(userValidator : (loginInfo : LoginInfo) => void) {
+    public login() {
         this.sdk.login(this.handleStatusResponse, { scope: 'public_profile,email' });
     }
     public logout() {
@@ -100,6 +101,9 @@ class Facebook {
         fjs.parentNode.insertBefore(js, fjs);
     }
     private handleStatusResponse = async (statusResponse : StatusResponse) => {
+        if (this.loadingInitStatus) {
+            this.loadingInitStatus = false;
+        }
         const { status, authResponse } = statusResponse;
         const { userID, accessToken } = authResponse || { userID: '', accessToken: '' };
         this.status = status;

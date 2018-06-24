@@ -1,0 +1,19 @@
+export default {
+    YELLOW_LIGHTER: '#FFF299',
+    YELLOW_LIGHT: '#FFED75',
+    YELLOW : '#EDC951',
+    YELLOW_DARK: '#9C8D2B',
+    YELLOW_DARKER: '#464015',
+
+    RED_LIGHTER: '#FF9999',
+    RED_LIGHT: '#FF7575',
+    RED : '#ED5151',
+    RED_DARK: '#A92D2D',
+    RED_DARKER: '#5A1515',
+
+    GREEN_LIGHTER: '#91F0CA',
+    GREEN_LIGHT: '#5FCFA2',
+    GREEN : '#37A177',
+    GREEN_DARK: '#1F7351',
+    GREEN_DARKER: '#0E3D2A',
+};
