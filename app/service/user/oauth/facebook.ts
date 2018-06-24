@@ -101,9 +101,6 @@ class Facebook {
         fjs.parentNode.insertBefore(js, fjs);
     }
     private handleStatusResponse = async (statusResponse : StatusResponse) => {
-        if (this.loadingInitStatus) {
-            this.loadingInitStatus = false;
-        }
         const { status, authResponse } = statusResponse;
         const { userID, accessToken } = authResponse || { userID: '', accessToken: '' };
         this.status = status;
@@ -121,6 +118,9 @@ class Facebook {
                     oauthId: userID,
                 });
             }
+        }
+        if (this.loadingInitStatus) {
+            this.loadingInitStatus = false;
         }
         console.log(statusResponse);
     }
