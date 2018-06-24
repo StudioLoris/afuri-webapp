@@ -58,7 +58,6 @@ const ItemIcon = styled.div`
 const ItemText = styled.div`
     flex: 3;
 `;
-
 const Footer = styled.div`
     padding: 5px;
     font-size: small;
@@ -86,7 +85,8 @@ interface State {
     showFunPlace : boolean;
 }
 interface Props {
-
+    isMobile? : boolean;
+    close? : () => void;
 }
 
 @observer
@@ -99,6 +99,7 @@ export default class SideBar extends React.Component<Props, State> {
     public render() {
         const { username, email } = userService.profileData;
         const { showFunPlace } = this.state;
+        const { isMobile } = this.props;
         return (
             <Wrapper>
                 <Dashboard />
@@ -115,7 +116,7 @@ export default class SideBar extends React.Component<Props, State> {
                     </Item>
                     {userService.isLoggedIn && (
                         <React.Fragment>
-                            <Item onClick={() => appService.go(ROUTES.BANK)}>
+                            <Item onClick={() => this.goTo(ROUTES.BANK)}>
                                 <ItemIcon><Icon src={bank} /></ItemIcon>
                                 <ItemText>Bank Account</ItemText>
                             </Item>
@@ -151,13 +152,30 @@ export default class SideBar extends React.Component<Props, State> {
 
                     )}
                 </Items>
-
-                <Footer>Survery City 2018</Footer>
+                {!isMobile && <Footer>Survery City 2018</Footer>}
+                {isMobile && (
+                    <Item onClick={this.mobileClose}>
+                        Close
+                    </Item>
+                )}
             </Wrapper>
         );
     }
 
+    private goTo(route : string) {
+        appService.go(route);
+        this.mobileClose();
+    }
+    private mobileClose = () => {
+        const { isMobile, close } = this.props;
+        if (isMobile && close) {
+            close();
+        }
+    }
     private toggleFunplaces = () => this.setState({ showFunPlace : !this.state.showFunPlace });
-    private clickLogin = () => userService.login();
+    private clickLogin = () => {
+        userService.login();
+        this.mobileClose();
+    }
     private clicklogout = () => userService.logout();
 }

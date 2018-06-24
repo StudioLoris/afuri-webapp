@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, StyledFunction } from 'styled-components';
 import { observer } from 'mobx-react';
 import SVG from 'react-inlinesvg';
 import { Route, Switch, RouteComponentProps, Redirect } from 'react-router-dom';
@@ -20,7 +20,10 @@ const Wrapper = styled.div`
     display: flex;
 `;
 
-const MenuIcon = styled(SVG)`
+const StyledSvg : StyledFunction<{ hide : boolean } & SVG> = styled(SVG);
+
+const MenuIcon = StyledSvg`
+    visibility: ${(props) => props.hide ? 'hidden' : 'visible'}
     position: fixed;
     margin: 10px;
     height: 40px;
@@ -51,15 +54,6 @@ const SideBarMobileWrapper = styled.div`
     max-width: ${MOBILE_BAR_MAX_WIDTH}px;
     display: flex;
     flex-direction: column;
-`;
-
-const SideBarMobileCloseButton = styled.span`
-    text-align: center;
-    padding: 10px;
-    background-color: ${(props) => props.theme.PRIMARY_BG};
-    color: ${(props) => props.theme.PRIMARY_STRONG_TEXT};
-    font-weight: bold;
-    font-size: large;
 `;
 
 const PrivateRoute = (
@@ -94,28 +88,28 @@ export default class Home extends React.Component<Props, State> {
         // console.log(this.props);
         const { mobileMenu } = this.state;
         const { location } = this.props;
+        const desktopMode = appService.width > BREAK_POINT;
         return (
             <Wrapper>
-                {(appService.width > BREAK_POINT) && (
+                {(desktopMode) && (
                     <SideBarDesktopWrapper>
                         <SideBar />
                     </SideBarDesktopWrapper>
                 )}
-                {(!mobileMenu && appService.width <= BREAK_POINT) && (
+                {(!desktopMode) && (
                     <div onClick={this.toggleMobileMenu}>
                         <MenuIcon
+                            hide={mobileMenu}
                             src={Menu}
                         />
                     </div>
                 )}
-                {(mobileMenu) && (
+                {(mobileMenu && !desktopMode) && (
                     <SideBarMobileWrapper>
-                        <SideBar />
-                        <SideBarMobileCloseButton
-                            onClick={this.toggleMobileMenu}
-                        >
-                            Close
-                        </SideBarMobileCloseButton>
+                        <SideBar
+                            isMobile
+                            close={this.toggleMobileMenu}
+                        />
                     </SideBarMobileWrapper>
                 )}
                 <Switch location={location}>
