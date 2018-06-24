@@ -28,6 +28,7 @@ const Description = styled.span`
     font-size: small;
 `;
 const LogoItem = styled.img`
+    border-radius: 15px;
     margin: 10px;
     width: 80px;
 `;
@@ -78,12 +79,12 @@ export default class Dashboard extends React.Component {
                                     <ProfileImg src={userService.profilePicture} />
                                     <InfoText> { username } </InfoText>
                                 </InfoItem>
+                            </Row>
+                            <Row>
                                 <InfoItem>
                                     <InfoIcon src={Rank3} />
                                     <InfoText> Mayor </InfoText>
                                 </InfoItem>
-                            </Row>
-                            <Row>
                                 <InfoItem>
                                     <InfoIcon src={Coin} />
                                     <InfoText> 5,432 </InfoText>
