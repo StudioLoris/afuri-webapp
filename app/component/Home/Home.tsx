@@ -6,7 +6,6 @@ import { Route, Switch, RouteComponentProps, Redirect } from 'react-router-dom';
 import PrivateComponentWrapper from '@/component/HOC/PrivateComponentWrapper';
 import SideBar from '@/component/SideBar';
 import appService from '@/service/app';
-import userService from '@/service/user';
 import Landing from '@/component/LandingPage';
 import Bank from '@/component/Bank';
 import ROUTES from '@/constants/routes';

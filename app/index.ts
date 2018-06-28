@@ -2,7 +2,6 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { AppMain } from '@/component/Main/';
 import appService from '@/service/app';
-import userService from '@/service/user';
 
 declare global {
   interface Window {
