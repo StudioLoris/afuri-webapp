@@ -1,5 +1,6 @@
 import { observable, computed } from 'mobx';
 import { UserProfile, LoginInfo, OAUTH_PROVIDER } from '../interface';
+import { OauthHandlerInterface } from './interface';
 
 interface AuthResponse {
     accessToken : string;
@@ -43,7 +44,7 @@ const FB_STATUS = {
     NOT_AUTHORIZED: 'not_authorized',
 };
 
-class Facebook {
+class Facebook implements OauthHandlerInterface {
 
     @observable public loadingInitStatus : boolean = true;
     @observable public userProfile : UserProfile;

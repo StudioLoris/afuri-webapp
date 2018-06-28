@@ -1,7 +1,16 @@
 import { observable, computed, autorun } from 'mobx';
 import Facebook from './oauth/facebook';
+import { OauthHandlerInterface , OauthHandlerConstructor } from './oauth/interface';
 import { UserProfile, LoginInfo, OAUTH_PROVIDER } from './interface';
 import apiService from '@/service/api';
+
+function createOauthProvider(
+    provider : OauthHandlerConstructor,
+    appId : string,
+    userValidator : (loginInfo : LoginInfo) => void,
+) : OauthHandlerInterface {
+    return new provider(appId, userValidator);
+}
 
 class UserService {
 
@@ -9,10 +18,10 @@ class UserService {
     @observable public isLoggedIn : boolean = false;
     @observable public loginProvider : string;
 
-    private facebook : Facebook;
+    private facebook : OauthHandlerInterface;
 
     constructor() {
-        this.facebook = new Facebook('1934419210183456', this.initUser);
+        this.facebook = createOauthProvider(Facebook, '1934419210183456', this.initUser);
         autorun(() => this.isLoggedIn = this.facebook.isLoggedIn);
         autorun(() => {
             this.loadingInitStatus = this.facebook.loadingInitStatus;
