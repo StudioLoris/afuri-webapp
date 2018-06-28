@@ -19,6 +19,7 @@ class UserService {
     @observable public loginProvider : string;
 
     private facebook : OauthHandlerInterface;
+    private line : OauthHandlerInterface;
 
     constructor() {
         this.facebook = createOauthProvider(Facebook, '1934419210183456', this.initUser);
