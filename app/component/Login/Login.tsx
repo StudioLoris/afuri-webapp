@@ -13,7 +13,7 @@ const OAUthProviderLogo = styled.img`
 `;
 
 @observer
-export default class Login extends PureComponent {
+export default class Login extends React.Component {
 
     public render() {
         return (
@@ -21,7 +21,7 @@ export default class Login extends PureComponent {
               {!userService.isLoggedIn && (
                 <React.Fragment>
                     <OAUthProviderLogo src={facebook} onClick={() => this.handleLogin(OAUTH_PROVIDER.FACEBOOK)} />
-                    <OAUthProviderLogo src={line} />
+                    <OAUthProviderLogo src={line} onClick={() => this.handleLogin(OAUTH_PROVIDER.LINE)}/>
                 </React.Fragment>
               )}
               {userService.isLoggedIn && (

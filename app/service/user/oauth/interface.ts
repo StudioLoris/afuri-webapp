@@ -5,12 +5,12 @@ interface OauthHandlerConstructor {
 }
 
 interface OauthHandlerInterface {
+  profilePicture : string;
+  isLoggedIn : boolean;
   loadingInitStatus : boolean;
   userProfile : UserProfile;
   login() : void;
   logout() : void;
-  profilePicture : string;
-  isLoggedIn : boolean;
 }
 
 export { OauthHandlerInterface, OauthHandlerConstructor };

@@ -8,7 +8,7 @@ import SideBar from '@/component/SideBar';
 import appService from '@/service/app';
 import Landing from '@/component/LandingPage';
 import Bank from '@/component/Bank';
-import Login from '@/component/Login';
+import { LoginLodable } from '@/component/Login';
 import ROUTES from '@/constants/routes';
 import Menu from '@/assets/menu.svg';
 
@@ -114,7 +114,7 @@ export default class Home extends React.Component<Props, State> {
                 )}
                 <Switch location={location}>
                     <PrivateRoute path={ROUTES.BANK} Component={Bank} />
-                    <Route excat path={ROUTES.LOGIN} component={Login} />
+                    <Route excat path={ROUTES.LOGIN} component={LoginLodable} />
                     <Route excat path={ROUTES.HOME} component={Landing} />
                     <Redirect to={{pathname: ROUTES.HOME}} />
                 </Switch>

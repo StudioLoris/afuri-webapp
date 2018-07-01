@@ -3,8 +3,10 @@ import { Router, Route, Redirect, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 import Home from '@/component/Home';
 import Header from '@/component/Header';
+import { VerifyOAuthLodable } from '@/component/Login';
 import { theme } from '@/UI';
 import appService from '@/service/app';
+import ROUTES from '@/constants/routes';
 
 const AppArea = styled.div`
     flex: 1;
@@ -20,6 +22,7 @@ class Main extends React.Component {
             <AppArea>
                 <Switch>
                     <Route excat path='/test' component={Header} />
+                    <Route path={`${ROUTES.VERIFY_OAUTH}/:provider`} component={VerifyOAuthLodable} />
                     <Route render={(props) => <Home {...props} />} />
                 </Switch>
             </AppArea>

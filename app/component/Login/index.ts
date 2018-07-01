@@ -6,4 +6,12 @@ const LoginLodable = Loadable({
     loading: Loading
 });
 
-export default LoginLodable;
+const VerifyOAuthLodable = Loadable({
+    loader: () => import(/* webpackChunkName: "VerifyOauth" */ './Verify'),
+    loading: Loading
+});
+
+export {
+    LoginLodable,
+    VerifyOAuthLodable
+};

@@ -1,16 +1,8 @@
 import { observable, computed, autorun } from 'mobx';
 import Facebook from './oauth/facebook';
-import { OauthHandlerInterface , OauthHandlerConstructor } from './oauth/interface';
 import { UserProfile, LoginInfo, OAUTH_PROVIDER } from './interface';
 import apiService from '@/service/api';
-
-function createOauthProvider(
-    provider : OauthHandlerConstructor,
-    appId : string,
-    userValidator : (loginInfo : LoginInfo) => void,
-) : OauthHandlerInterface {
-    return new provider(appId, userValidator);
-}
+import { createOauthLink } from './utils/oauthLink';
 
 class UserService {
 
@@ -18,11 +10,10 @@ class UserService {
     @observable public isLoggedIn : boolean = false;
     @observable public loginProvider : string;
 
-    private facebook : OauthHandlerInterface;
-    private line : OauthHandlerInterface;
+    private facebook : Facebook;
 
     constructor() {
-        this.facebook = createOauthProvider(Facebook, '1934419210183456', this.initUser);
+        this.facebook = new Facebook('1934419210183456', this.initUser);
         autorun(() => this.isLoggedIn = this.facebook.isLoggedIn);
         autorun(() => {
             this.loadingInitStatus = this.facebook.loadingInitStatus;
@@ -31,6 +22,9 @@ class UserService {
 
     public login(provider? : string) {
         switch(provider) {
+            case OAUTH_PROVIDER.LINE:
+                this.goToOauthPage(provider);
+                break;
             case OAUTH_PROVIDER.FACEBOOK:
             default:
                 this.facebook.login();
@@ -46,6 +40,10 @@ class UserService {
                 throw new Error('Logging out without oauth provider');
         }
     }
+    public goToOauthPage(provider : string) {
+        window.open(createOauthLink(provider), '_self');
+    }
+
     @computed public get profilePicture() : string {
         if (this.isLoggedIn) {
             switch (this.loginProvider) {
