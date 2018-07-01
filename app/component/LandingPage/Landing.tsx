@@ -4,7 +4,7 @@ export default class Landing extends PureComponent {
     public render() {
         return (
           <div>
-
+            Landing
           </div>
         );
     }

@@ -105,7 +105,7 @@ export default class SideBar extends React.Component<Props, State> {
                 <Dashboard />
                 <Items>
                     { !userService.isLoggedIn && (
-                        <Item onClick={this.clickLogin}>
+                        <Item onClick={() => this.goTo(ROUTES.LOGIN)}>
                             <ItemIcon><Icon src={enter} /></ItemIcon>
                             <ItemText>Login</ItemText>
                         </Item>
