@@ -1,4 +1,4 @@
-import { OAUTH_PROVIDER } from '../interface';
+import { OAUTH_PROVIDER } from '@/constants/login';
 import ROUTES from '@/constants/routes';
 
 const LineOAuthLink = (protocol, hostname, port) => `
@@ -7,7 +7,7 @@ response_type=code&
 client_id=1590579283&
 redirect_uri=${protocol}//${hostname}:${port}${ROUTES.VERIFY_OAUTH}/line&
 state=12345abcde&
-scope=openid%20profile&nonce=09876xyz
+scope=email%20openid%20profile&nonce=09876xyz
 `;
 
 export const createOauthLink = (provider : string) : string => {
@@ -16,7 +16,6 @@ export const createOauthLink = (provider : string) : string => {
         protocol,
         port,
     } = window.location;
-    console.log(protocol, hostname, port);
     switch(provider) {
         case OAUTH_PROVIDER.LINE:
             return LineOAuthLink(protocol, hostname, port);

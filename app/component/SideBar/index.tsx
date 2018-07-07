@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import styled, { keyframes } from 'styled-components';
-import userService from '@/service/user';
+import loginService from '@/service/login';
 import appService from '@/service/app';
 import { Button } from '@/UI';
 import bank from '@/assets/bank.svg';
@@ -97,14 +97,13 @@ export default class SideBar extends React.Component<Props, State> {
     };
 
     public render() {
-        const { username, email } = userService.profileData;
         const { showFunPlace } = this.state;
         const { isMobile } = this.props;
         return (
             <Wrapper>
                 <Dashboard />
                 <Items>
-                    { !userService.isLoggedIn && (
+                    { !loginService.isLoggedIn && (
                         <Item onClick={() => this.goTo(ROUTES.LOGIN)}>
                             <ItemIcon><Icon src={enter} /></ItemIcon>
                             <ItemText>Login</ItemText>
@@ -114,7 +113,8 @@ export default class SideBar extends React.Component<Props, State> {
                         <ItemIcon><Icon src={book} /></ItemIcon>
                         <ItemText>Take Survey & Vote</ItemText>
                     </Item>
-                    {userService.isLoggedIn && (
+
+                    {loginService.isLoggedIn && (
                         <React.Fragment>
                             <Item onClick={() => this.goTo(ROUTES.BANK)}>
                                 <ItemIcon><Icon src={bank} /></ItemIcon>
@@ -173,9 +173,5 @@ export default class SideBar extends React.Component<Props, State> {
         }
     }
     private toggleFunplaces = () => this.setState({ showFunPlace : !this.state.showFunPlace });
-    private clickLogin = () => {
-        userService.login();
-        this.mobileClose();
-    }
-    private clicklogout = () => userService.logout();
+    private clicklogout = () => loginService.logout();
 }

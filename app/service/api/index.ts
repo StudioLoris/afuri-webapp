@@ -1,15 +1,24 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { LoginInfo } from '@/service/user/interface';
 
 const request = axios.create({
     baseURL: '/api',
 });
 
+request.interceptors.response.use((res) => {
+    const { data } = res;
+    return data;
+});
+
+interface LoginResponse {
+    oauthProvider : string;
+    accessToken : string;
+}
+
 class ApiService {
 
     public getRoot = () => request.get('/');
-    public checkUser = (loginInfo : LoginInfo) => request.post('/user/check', loginInfo);
     public logout = () => request.post('/user/logout');
+    public login = (provider? : string, code? : string) : Promise<LoginResponse> => request.post('/user/login', { provider, code }) as any;
 
 }
 

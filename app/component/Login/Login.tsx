@@ -3,8 +3,8 @@ import { observer } from 'mobx-react';
 import facebook from '@/assets/facebook.svg';
 import line from '@/assets/line.svg';
 import styled from 'styled-components';
-import userService from '@/service/user';
-import { OAUTH_PROVIDER } from '@/service/user/interface';
+import loginService from '@/service/login';
+import { OAUTH_PROVIDER } from '@/constants/login';
 
 const OAUthProviderLogo = styled.img`
     height: 50px;
@@ -18,21 +18,17 @@ export default class Login extends React.Component {
     public render() {
         return (
           <div>
-              {!userService.isLoggedIn && (
+              {(
                 <React.Fragment>
                     <OAUthProviderLogo src={facebook} onClick={() => this.handleLogin(OAUTH_PROVIDER.FACEBOOK)} />
                     <OAUthProviderLogo src={line} onClick={() => this.handleLogin(OAUTH_PROVIDER.LINE)}/>
                 </React.Fragment>
               )}
-              {userService.isLoggedIn && (
-                  <span>You have logged in!</span>
-              )}
-
           </div>
         );
     }
 
     private handleLogin(provider : string) {
-        userService.login(provider);
+        loginService.goToOauthPage(provider);
     }
 }

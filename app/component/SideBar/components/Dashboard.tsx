@@ -4,7 +4,7 @@ import Logo from '@/assets/logo.svg';
 import Coin from '@/assets/coin.svg';
 import Rank3 from '@/assets/rank_3.svg';
 import Girl1 from '@/assets/girl_1.svg';
-import userService from '@/service/user';
+import loginService from '@/service/login';
 import { observer } from 'mobx-react';
 import ROUTES from '@/constants/routes';
 import appService from '@/service/app';
@@ -67,17 +67,16 @@ const InfoText = styled.span`
 @observer
 export default class Dashboard extends React.Component {
     public render() {
-        const { username } = userService.profileData;
         return (
           <Wrapper>
                 <LogoItem src={Logo} onClick={() => appService.go(ROUTES.HOME)}/>
                 <InfoArea>
-                    {userService.isLoggedIn && (
+                    {loginService.isLoggedIn && (
                         <List>
                             <Row>
                                 <InfoItem>
-                                    <ProfileImg src={userService.profilePicture} />
-                                    <InfoText> { username } </InfoText>
+                                    <ProfileImg src={loginService.picture} />
+                                    <InfoText> { loginService.name } </InfoText>
                                 </InfoItem>
                             </Row>
                             <Row>
@@ -92,7 +91,7 @@ export default class Dashboard extends React.Component {
                             </Row>
                         </List>
                     )}
-                    {!userService.isLoggedIn && (
+                    {!loginService.isLoggedIn && (
                         <React.Fragment>
                             <CenterText>
                                 <Name>Survey City</Name>

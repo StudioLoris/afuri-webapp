@@ -5,6 +5,7 @@ import SVG from 'react-inlinesvg';
 import { Route, Switch, RouteComponentProps, Redirect } from 'react-router-dom';
 import PrivateComponentWrapper from '@/component/HOC/PrivateComponentWrapper';
 import SideBar from '@/component/SideBar';
+import loginService from '@/service/login';
 import appService from '@/service/app';
 import Landing from '@/component/LandingPage';
 import Bank from '@/component/Bank';
@@ -83,6 +84,12 @@ export default class Home extends React.Component<Props, State> {
     public state = {
         mobileMenu: false,
     };
+
+    public componentDidMount() {
+        if (!loginService.isLoggedIn) {
+            loginService.login();
+        }
+    }
 
     public render() {
         // console.log(this.props);
