@@ -16,11 +16,13 @@ const LoadingWrapper = styled.div`
 `;
 
 const ButtonStyled = styled.button`
+    outline: none;
     position: relative;
     display: inline-block;
     border: 2px solid;
     border-radius: 5px;
-    padding: 8px 17px;
+    padding: 0px 15px;
+    min-height: ${(p) => p.theme.HEIGHT_UNIT}px;
     cursor: pointer;
     font-size: large;
     margin: 5px;
@@ -72,9 +74,9 @@ const Button = (props : {
     theme,
 }) => {
     const { secondary, ghost, warning, disabled, theme, loading, onClick } = props;
-    const { PRIMARY, SECONDARY, SECONDARY_HOVER, PRIMARY_HOVER, RED, RED_DARK, BACKGROUND } = theme;
-    const color = warning ? RED : (secondary ? SECONDARY : PRIMARY);
-    const hover = warning ? RED_DARK : (secondary ? SECONDARY_HOVER : PRIMARY_HOVER);
+    const { PRIMARY, SECONDARY, SECONDARY_HOVER, PRIMARY_HOVER, WARNING, WARNING_DARK, BACKGROUND } = theme;
+    const color = warning ? WARNING : (secondary ? SECONDARY : PRIMARY);
+    const hover = warning ? WARNING_DARK : (secondary ? SECONDARY_HOVER : PRIMARY_HOVER);
     const create = ghost ? createGhostBtn : createNormalBtn;
     const isDisabled = disabled || loading;
     const Btn = create(color, hover, isDisabled, loading);

@@ -45,6 +45,7 @@ module.exports = (env, options) => {
             chunkFilename: '[name].[chunkhash].js',
             publicPath: _basePath,
         },
+        /*
         optimization: {
             runtimeChunk: {
                 name: "runtime"
@@ -52,13 +53,14 @@ module.exports = (env, options) => {
             splitChunks: {
                 cacheGroups: {
                     commons: {
-                    test: /[\\/]node_modules[\\/]/,
-                    name: 'vendor',
-                    chunks: 'all',
+                        test: /[\\/]node_modules[\\/]/,
+                        name: 'vendor',
+                        chunks: 'all',
                     }
                 }
             }
         },
+        */
         plugins,
         module: {
             rules: [
