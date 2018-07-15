@@ -10,9 +10,10 @@ class LoginService {
     @observable public picture : string;
 
     @observable private accessToken : string;
+    @observable private oauthId : string;
 
     @computed public get isLoggedIn() {
-        return this.oauthProvider && this.accessToken;
+        return this.oauthProvider && this.accessToken && this.oauthId;
     }
 
     constructor() {
@@ -23,9 +24,11 @@ class LoginService {
         try {
             const res = await apiService.login(provider, code);
             if (res && res.accessToken) {
-                const { oauthProvider, accessToken } = res;
+                console.log(res);
+                const { oauthProvider, accessToken, oauthId } = res;
                 this.oauthProvider = oauthProvider;
                 this.accessToken = accessToken;
+                this.oauthId = oauthId;
                 this.getUserProfile();
                 return this.isLoggedIn;
             }
@@ -45,7 +48,7 @@ class LoginService {
     }
 
     public async getUserProfile() {
-        const { name, picture } = await getUserProfile(this.oauthProvider, this.accessToken);
+        const { name, picture } = await getUserProfile(this.oauthProvider, this.accessToken, this.oauthId);
         this.name = name;
         this.picture = picture;
     }

@@ -2,7 +2,7 @@ export default {
     YELLOW_LIGHTER: '#FFF299',
     YELLOW_LIGHT: '#FFED75',
     YELLOW : '#EDC951',
-    YELLOW_DARK: '#9C8D2B',
+    YELLOW_DARK: '#D2AA25',
     YELLOW_DARKER: '#464015',
 
     RED_LIGHTER: '#FF9999',
@@ -16,4 +16,6 @@ export default {
     GREEN : '#37A177',
     GREEN_DARK: '#1F7351',
     GREEN_DARKER: '#0E3D2A',
+
+    WHITE: '#FFF',
 };

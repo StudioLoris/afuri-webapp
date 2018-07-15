@@ -76,7 +76,7 @@ export default class Dashboard extends React.Component {
                             <Row>
                                 <InfoItem>
                                     <ProfileImg src={loginService.picture} />
-                                    <InfoText> { loginService.name } </InfoText>
+                                    <InfoText> { loginService.name } via {loginService.oauthProvider}</InfoText>
                                 </InfoItem>
                             </Row>
                             <Row>

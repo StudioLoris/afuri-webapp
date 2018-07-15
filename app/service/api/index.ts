@@ -12,6 +12,7 @@ request.interceptors.response.use((res) => {
 interface LoginResponse {
     oauthProvider : string;
     accessToken : string;
+    oauthId : string;
 }
 
 class ApiService {
