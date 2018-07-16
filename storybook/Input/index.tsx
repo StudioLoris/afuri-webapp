@@ -11,6 +11,39 @@ const Row = styled.div`
     align-items: center;
 `;
 
+class ControllableInput extends React.PureComponent {
+    state = {
+        value: 123,
+        value2: undefined
+    };
+
+    render() {
+        const { value , value2 } = this.state;
+        return (
+            <ThemeProvider theme={theme}>
+                <>
+                    <Input
+                        placeholder='Control Element'
+                        value={value}
+                        onDataChanged={(value) => {
+                            this.setState({ value });
+                        }}
+                    />
+                    <Input
+                        secondary
+                        placeholder='Uncontrol Element'
+                        onDataChanged={(value2) => {
+                            this.setState({ value2 });
+                        }}
+                    />
+                    <div>Value of controllable element: {value}</div>
+                    <div>Value of uncontrollable element: {value2}</div>
+                </>
+            </ThemeProvider>
+        );
+    }
+}
+
 storiesOf('Input', module)
   .add('All kinds of Inputs', () => (
     <ThemeProvider theme={theme}>
@@ -23,7 +56,8 @@ storiesOf('Input', module)
                 />
             </Row>
             <Row>
-                <Input secondary
+                <Input
+                    secondary
                     onDataChanged={(input) => {
                         console.log(input);
                     }}
@@ -54,4 +88,5 @@ storiesOf('Input', module)
             </Row>
         </div>
     </ThemeProvider>
-  ));
+  ))
+  .add('Input with value', () => (<ControllableInput />));
