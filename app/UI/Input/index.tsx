@@ -18,6 +18,7 @@ const Wrapper = wraper`
     border-radius: 5px;
     border: 1px solid ${(p : any) => p.focus ? p.color : (p.isError ? p.color : '#CCC')};
     padding: 0 15px;
+    align-items: center;
 `;
 
 const StyledInput = styled.input`
@@ -34,7 +35,13 @@ const ErrorMessage = styled.div`
     font-size: small;
 `;
 
+const Title = styled.div`
+    color: ${p => p.color};
+    margin-right: 10px;
+`;
+
 interface Props extends React.HTMLProps<HTMLInputElement> {
+    title? : string;
     primary? : boolean;
     secondary? : boolean;
     theme : any;
@@ -43,6 +50,7 @@ interface Props extends React.HTMLProps<HTMLInputElement> {
         errorMessage : string;
     }>;
     onDataChanged? : (data : string | number) => void;
+
 }
 
 interface State {
@@ -58,7 +66,7 @@ class Input extends React.PureComponent<Props, State> {
     };
 
     public render() {
-        const { secondary, theme } = this.props;
+        const { secondary, theme, title } = this.props;
         const { PRIMARY, SECONDARY, WARNING } = theme;
         const { focus, data } = this.state;
         const { isError, messages } = this.validate();
@@ -67,6 +75,9 @@ class Input extends React.PureComponent<Props, State> {
         return (
             <Container>
                 <Wrapper focus={focus} color={color} isError={isError}>
+                    {title && (
+                        <Title color={color}>{title}</Title>
+                    )}
                     <StyledInput
                         {...props}
                         onFocus={this.styleActive}

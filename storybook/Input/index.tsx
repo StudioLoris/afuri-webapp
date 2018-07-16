@@ -65,6 +65,7 @@ storiesOf('Input', module)
             </Row>
             <Row>
                 <Input
+                    title='Age'
                     type='number'
                     placeholder='Please input positive number which is large than 10'
                     validator={[{
@@ -78,12 +79,21 @@ storiesOf('Input', module)
                         console.log(input);
                     }}
                 />
+                <Input
+                    title='Password'
+                    type='password'
+                    secondary
+                    validator={[{
+                        validate: (data : string) => data.length > 6,
+                        errorMessage: 'Password length must be larger than 6 characters'
+                    }]}
+                />
             </Row>
             <Row>
                 <Input
-                    type='password'
                     secondary
-                    placeholder='Password'
+                    title='Email'
+                    placeholder='user@somewhere.com'
                 />
             </Row>
         </div>
