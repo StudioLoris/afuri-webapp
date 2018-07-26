@@ -100,9 +100,9 @@ class Input extends React.PureComponent<Props, State> {
     private styleInactive = () => this.setState({ focus: false });
     private updateData = (e : React.FormEvent<EventTarget>) => {
         this.setState({ data: (e.target as HTMLInputElement).value }, () => {
-            const { onChange } = this.props;
-            if (onChange) {
-                onChange(this.state.data);
+            const { onDataChanged } = this.props;
+            if (onDataChanged) {
+                onDataChanged(this.state.data);
             }
         });
     }

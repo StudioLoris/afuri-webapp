@@ -25,14 +25,14 @@ class ControllableInput extends React.PureComponent {
                     <Input
                         placeholder='Control Element'
                         value={value}
-                        onChange={(value) => {
+                        onDataChanged={(value) => {
                             this.setState({ value });
                         }}
                     />
                     <Input
                         secondary
                         placeholder='Uncontrol Element'
-                        onChange={(value2) => {
+                        onDataChanged={(value2) => {
                             this.setState({ value2 });
                         }}
                     />
@@ -50,7 +50,7 @@ storiesOf('Input', module)
         <div>
             <Row>
                 <Input
-                    onChange={(input) => {
+                    onDataChanged={(input) => {
                         console.log(input);
                     }}
                 />
@@ -58,7 +58,7 @@ storiesOf('Input', module)
             <Row>
                 <Input
                     secondary
-                    onChange={(input) => {
+                    onDataChanged={(input) => {
                         console.log(input);
                     }}
                 />
@@ -75,7 +75,7 @@ storiesOf('Input', module)
                         validate: (data) => data > 10,
                         errorMessage: 'Input number must be larger than 10'
                     }]}
-                    onChange={(input) => {
+                    onDataChanged={(input) => {
                         console.log(input);
                     }}
                 />
