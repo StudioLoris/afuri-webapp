@@ -17,6 +17,7 @@ storiesOf('Select', module)
       <div>
         <div>
           <Select
+            title='title'
             options={options}
             onDataChanged={(it) => {
               console.log(it);
