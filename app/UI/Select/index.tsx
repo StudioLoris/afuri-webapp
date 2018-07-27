@@ -13,6 +13,8 @@ const Container = styled.div`
 `;
 
 const OptionsArea = styled.div`
+  z-index: 999;
+  background-color: white;
   position: absolute;
   box-sizing: border-box;
   top: ${(p) => p.theme.HEIGHT_UNIT}px;
@@ -49,8 +51,9 @@ interface Option {
   content : string;
 }
 
-interface Props extends React.HTMLProps<HTMLSelectElement> {
+interface Props {
   title? : string;
+  value? : string | number | null;
   theme : any;
   options: Array<Option>
   onDataChanged? : (data : string | number) => void;
@@ -63,13 +66,30 @@ interface State {
 
 class Select extends PureComponent<Props, State> {
 
-  public state = {
-    openOptions: false,
-    selected: {
-      value: null,
-      content: '',
-    },
-  };
+  static getOptionByValue(value, props) : Option {
+    const { options } = props;
+    const option = (options || []).find((it : Option) => it.value === value);
+    return option;
+  }
+
+  static getDerivedStateFromProps(props, state){
+    if (props.value && (props.value !== state.selected.value)) {
+      const selected = Select.getOptionByValue(props.value, props);
+      return selected ? { selected } : state;
+    }
+    return state;
+  }
+
+  constructor(props : Props) {
+    super(props);
+    this.state = {
+      openOptions: false,
+      selected: {
+        value: null,
+        content: '',
+      },
+    };
+  }
 
   public render() {
     const { options, title } = this.props;
@@ -105,15 +125,12 @@ class Select extends PureComponent<Props, State> {
   };
 
   private updateData = (selected : Option) => {
-    this.setState({ selected }, () => {
-      const { value } = this.state.selected;
-      const { onDataChanged } = this.props;
-      if (onDataChanged) {
-        onDataChanged(value);
-        this.toggleOptions();
-      }
-    });
-
+    const { onDataChanged } = this.props;
+    if (onDataChanged) {
+      onDataChanged(selected.value);
+      this.toggleOptions();
+    }
+    this.setState({ selected });
   }
 
 }
