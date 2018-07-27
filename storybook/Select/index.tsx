@@ -29,6 +29,7 @@ class ControllableSelect extends React.PureComponent {
               <>
                 <Select
                   title='Controllable Select'
+                  secondary
                   value={value}
                   options={options}
                   onDataChanged={(value) => {
@@ -54,6 +55,7 @@ storiesOf('Select', module)
             }}
           />
           <Select
+            warning
             title='Country'
             options={options}
             onDataChanged={(it) => {
