@@ -9,6 +9,7 @@ const Container = styled.div`
   border: 1px solid #DDD;
   min-width: 100px;
   padding: 0 15px;
+  cursor: pointer;
 `;
 
 const OptionsArea = styled.div`
@@ -75,7 +76,9 @@ class Select extends PureComponent<Props, State> {
     const { openOptions, selected } = this.state;
     return (
       <Container>
-        <SelectArea onClick={this.toggleOptions}>
+        <SelectArea
+          onClick={this.toggleOptions}
+        >
           { title && (<Title>{title}</Title>) }
           <span>{ selected && selected.content }</span>
         </SelectArea>
@@ -107,6 +110,7 @@ class Select extends PureComponent<Props, State> {
       const { onDataChanged } = this.props;
       if (onDataChanged) {
         onDataChanged(value);
+        this.toggleOptions();
       }
     });
 
