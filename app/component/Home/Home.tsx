@@ -9,6 +9,7 @@ import loginService from '@/service/login';
 import appService from '@/service/app';
 import Landing from '@/component/LandingPage';
 import Bank from '@/component/Bank';
+import CreatePoll from '@/component/Poll/Create';
 import { LoginLodable } from '@/component/Login';
 import ROUTES from '@/constants/routes';
 import Menu from '@/assets/menu.svg';
@@ -121,6 +122,7 @@ export default class Home extends React.Component<Props, State> {
                 )}
                 <Switch location={location}>
                     <PrivateRoute path={ROUTES.BANK} Component={Bank} />
+                    <PrivateRoute path={ROUTES.CREATE_POLL} Component={CreatePoll} />
                     <Route excat path={ROUTES.LOGIN} component={LoginLodable} />
                     <Route excat path={ROUTES.HOME} component={Landing} />
                     <Redirect to={{pathname: ROUTES.HOME}} />

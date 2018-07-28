@@ -83,6 +83,7 @@ const SubItems = styled.div`
 
 interface State {
     showFunPlace : boolean;
+    showManage : boolean;
 }
 interface Props {
     isMobile? : boolean;
@@ -93,11 +94,12 @@ interface Props {
 export default class SideBar extends React.Component<Props, State> {
 
     public state : State = {
-        showFunPlace: false
+        showFunPlace: false,
+        showManage: false,
     };
 
     public render() {
-        const { showFunPlace } = this.state;
+        const { showFunPlace, showManage } = this.state;
         const { isMobile } = this.props;
         return (
             <Wrapper>
@@ -116,6 +118,18 @@ export default class SideBar extends React.Component<Props, State> {
 
                     {loginService.isLoggedIn && (
                         <React.Fragment>
+                            <Item onClick={this.toggleManage}>
+                                <ItemIcon><Icon src={manage} /></ItemIcon>
+                                <ItemText>Create & Manage</ItemText>
+                            </Item>
+                            {showManage && (
+                                <SubItems>
+                                    <Item onClick={() => this.goTo(ROUTES.CREATE_POLL)} >
+                                        <ItemIcon><Icon src={slot} /></ItemIcon>
+                                        <ItemText>Create New Poll</ItemText>
+                                    </Item>
+                                </SubItems>
+                            )}
                             <Item onClick={() => this.goTo(ROUTES.BANK)}>
                                 <ItemIcon><Icon src={bank} /></ItemIcon>
                                 <ItemText>Bank Account</ItemText>
@@ -140,10 +154,6 @@ export default class SideBar extends React.Component<Props, State> {
                                     </Item>
                                 </SubItems>
                             )}
-                            <Item>
-                                <ItemIcon><Icon src={manage} /></ItemIcon>
-                                <ItemText>Manage My Survey</ItemText>
-                            </Item>
                             <Item onClick={this.clicklogout}>
                                 <ItemIcon><Icon src={exit} /></ItemIcon>
                                 <ItemText>Log Out</ItemText>
@@ -173,5 +183,6 @@ export default class SideBar extends React.Component<Props, State> {
         }
     }
     private toggleFunplaces = () => this.setState({ showFunPlace : !this.state.showFunPlace });
+    private toggleManage = () => this.setState({ showManage : !this.state.showManage });
     private clicklogout = () => loginService.logout();
 }

@@ -5,6 +5,7 @@ import { getUserProfile } from './utils/getOauthData';
 
 class LoginService {
 
+    @observable public initDone : boolean = false;
     @observable public oauthProvider : string;
     @observable public name : string;
     @observable public picture : string;
@@ -24,16 +25,18 @@ class LoginService {
         try {
             const res = await apiService.login(provider, code);
             if (res && res.accessToken) {
-                console.log(res);
+                // console.log(res);
                 const { oauthProvider, accessToken, oauthId } = res;
                 this.oauthProvider = oauthProvider;
                 this.accessToken = accessToken;
                 this.oauthId = oauthId;
                 this.getUserProfile();
+                this.initDone = true;
                 return this.isLoggedIn;
             }
         } catch {
             console.log('Logged in failed');
+            this.initDone = true;
         }
     }
 
