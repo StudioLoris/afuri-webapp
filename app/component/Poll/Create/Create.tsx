@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import Input from '@/UI/Input';
+import ImageUploader from '@/component/ImageUploader';
 
 const Container = styled.div`
     padding: 20px;
@@ -18,6 +19,7 @@ interface Props {
 interface State {
     maxVote : number;
     minVote : number;
+    candidates : Array<any>;
 }
 
 export default class PollCreate extends PureComponent<Props, State> {
@@ -27,11 +29,14 @@ export default class PollCreate extends PureComponent<Props, State> {
         this.state = {
             maxVote: 1,
             minVote: 1,
+            candidates: [{
+                imageURL: '',
+            }],
         };
     }
 
     public render() {
-        const { maxVote, minVote } = this.state;
+        const { maxVote, minVote, candidates } = this.state;
         return (
             <Container>
                 <Row>
@@ -62,6 +67,12 @@ export default class PollCreate extends PureComponent<Props, State> {
                         onDataChanged={this.updateMaxVote}
                     />
                 </Row>
+                <div>
+                    {candidates.map((it, key) => {
+                        const { imageURL } = it;
+                        return <ImageUploader key={key} url={imageURL} />;
+                    })}
+                </div>
             </Container>
         );
     }
