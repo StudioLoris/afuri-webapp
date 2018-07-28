@@ -11,7 +11,7 @@ const Container = container`
   border-radius: 5px;
   margin: 5px;
   border-radius: 5px;
-  border: 1px solid ${p => p.focus ? p.color : '#DDD'};
+  border: 1px solid ${(p)=> p.focus ? p.color : '#DDD'};
   min-width: 100px;
   padding: 0 15px;
   cursor: pointer;
@@ -29,21 +29,21 @@ const OptionsArea = optionsArea`
   top: ${(p) => p.theme.HEIGHT_UNIT}px;
   left: 0;
   border-radius: 5px;
-  border: 1px solid ${p => p.color};
+  border: 1px solid #DDD;
   width: 100%;
   margin: 5px 0px;
   text-align: center;
 `;
 
-const options : StyledFunction<{
+const styledOptions : StyledFunction<{
   hoverColor : string;
 } & React.HTMLProps<HTMLDivElement>> = styled.div;
 
-const Options = options`
+const Options = styledOptions`
   padding: 5px;
   cursor: pointer;
   &:hover {
-    color: ${p => p.hoverColor};
+    color: ${(p) => p.hoverColor};
   }
 `;
 
@@ -56,7 +56,7 @@ const SelectArea = styled.div`
 `;
 
 const Title = styled.div`
-    color: ${p => p.color};
+    color: ${(p) => p.color};
     margin-right: 10px;
 `;
 
@@ -72,7 +72,7 @@ interface Props {
   secondary? : boolean;
   warning? : boolean;
   theme : any;
-  options: Array<Option>
+  options : Array<Option>;
   onDataChanged? : (data : string | number) => void;
 }
 
@@ -83,18 +83,18 @@ interface State {
 
 class Select extends PureComponent<Props, State> {
 
-  static getOptionByValue(value, props) : Option {
-    const { options } = props;
-    const option = (options || []).find((it : Option) => it.value === value);
-    return option;
-  }
-
-  static getDerivedStateFromProps(props, state){
+  public static getDerivedStateFromProps(props, state) : State {
     if (props.value && (props.value !== state.selected.value)) {
       const selected = Select.getOptionByValue(props.value, props);
       return selected ? { selected } : state;
     }
     return state;
+  }
+
+  private static getOptionByValue(value, props) : Option {
+    const { options } = props;
+    const option = (options || []).find((it : Option) => it.value === value);
+    return option;
   }
 
   constructor(props : Props) {
@@ -111,11 +111,11 @@ class Select extends PureComponent<Props, State> {
   public render() {
     const { options, title, theme, primary, secondary, warning } = this.props;
     const { openOptions, selected } = this.state;
-    const { PRIMARY, SECONDARY, WARNING, PRIMARY_LIGHTER, SECONDARY_LIGHTER } = theme;
+    const { PRIMARY, SECONDARY, WARNING } = theme;
     const color = warning ? WARNING : (secondary ? SECONDARY : PRIMARY);
     return (
       <Container
-        focus={openOptions}
+        focus={warning || openOptions}
         color={color}
       >
         <SelectArea
@@ -145,7 +145,7 @@ class Select extends PureComponent<Props, State> {
 
   private toggleOptions = () => {
     this.setState({ openOptions: !this.state.openOptions });
-  };
+  }
 
   private updateData = (selected : Option) => {
     const { onDataChanged } = this.props;
