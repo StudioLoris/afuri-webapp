@@ -2,9 +2,9 @@ import React, { PureComponent, ReactChildren } from 'react';
 import styled, { withTheme, StyledFunction } from 'styled-components';
 
 const Container = styled.div`
-    width: 100%;
     min-width: 100px;
     margin: 5px;
+    flex: 1;
 `;
 
 const wraper : StyledFunction<{
@@ -24,7 +24,7 @@ const Wrapper = wraper`
 const StyledInput = styled.input`
     border: none;
     outline: none;
-    width: 100%;
+    flex: 1;
 `;
 
 const ErrorMessageArea = styled.div`
@@ -36,7 +36,7 @@ const ErrorMessage = styled.div`
 `;
 
 const Title = styled.div`
-    color: ${p => p.color};
+    color: ${(p) => p.color};
     margin-right: 10px;
 `;
 
