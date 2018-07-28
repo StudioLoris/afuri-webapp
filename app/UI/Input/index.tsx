@@ -8,8 +8,8 @@ const Container = styled.div`
 `;
 
 const wraper : StyledFunction<{
-    focus : boolean,
-    isError : boolean
+    focus? : boolean,
+    isError? : boolean
 } & React.HTMLProps<HTMLDivElement>> = styled.div;
 
 const Wrapper = wraper`
@@ -25,6 +25,7 @@ const StyledInput = styled.input`
     border: none;
     outline: none;
     flex: 1;
+    ${(p) => p.type === 'number' && 'text-align: right;'}
 `;
 
 const ErrorMessageArea = styled.div`
@@ -35,8 +36,8 @@ const ErrorMessage = styled.div`
     font-size: small;
 `;
 
-const Title = styled.div`
-    color: ${(p) => p.color};
+const Title = wraper`
+    color:  ${(p : any) => p.focus ? p.color : (p.isError ? p.color : '#CCC')};
     margin-right: 10px;
 `;
 
@@ -76,7 +77,13 @@ class Input extends React.PureComponent<Props, State> {
             <Container>
                 <Wrapper focus={focus} color={color} isError={isError}>
                     {title && (
-                        <Title color={color}>{title}</Title>
+                        <Title
+                            color={color}
+                            focus={focus}
+                            isError={isError}
+                        >
+                                {title}
+                        </Title>
                     )}
                     <StyledInput
                         {...props}
