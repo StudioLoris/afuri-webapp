@@ -21,6 +21,17 @@ class ApiService {
     public logout = () => request.post('/user/logout');
     public login = (provider? : string, code? : string) : Promise<LoginResponse> => request.post('/user/login', { provider, code }) as any;
 
+    public imgurUpload = async (file : File) : Promise<string> => {
+        const fileData = new FormData();
+        fileData.append('image', file);
+        const res = await axios.post('https://api.imgur.com/3/image', fileData, {
+            headers: { Authorization: 'Client-ID 2fa71b819630c32' },
+        });
+        const { data: { data } } = res;
+        if (data && data.link) {
+            return data.link;
+        }
+    }
 }
 
 const apiService = new ApiService();
