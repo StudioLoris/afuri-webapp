@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import Input from '@/UI/Input';
+import Button from '@/UI/Button';
 import ImageUploader from '@/component/ImageUploader';
 
 const Container = styled.div`
@@ -12,6 +13,28 @@ const Row = styled.div`
     margin: 5px;
 `;
 
+const CandiateArea = styled.div`
+    display: flex;
+    margin: 5px;
+    align-items: center;
+    padding: 10px;
+`;
+const CadiateImageArea = styled.div`
+    padding: 10px;
+`;
+const CadiateInfoArea = styled.div`
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+`;
+
+interface Candidate {
+    imageURL? : string;
+    title? : string;
+    description? : string;
+}
+
 interface Props {
 
 }
@@ -19,7 +42,7 @@ interface Props {
 interface State {
     maxVote : number;
     minVote : number;
-    candidates : Array<any>;
+    candidates : Array<Candidate>;
 }
 
 export default class PollCreate extends PureComponent<Props, State> {
@@ -29,9 +52,7 @@ export default class PollCreate extends PureComponent<Props, State> {
         this.state = {
             maxVote: 1,
             minVote: 1,
-            candidates: [{
-                imageURL: '',
-            }],
+            candidates: [],
         };
     }
 
@@ -67,10 +88,39 @@ export default class PollCreate extends PureComponent<Props, State> {
                         onDataChanged={this.updateMaxVote}
                     />
                 </Row>
+                <Row>
+                    <Button
+                        ghost
+                        onClick={this.addCandiate}
+                    >
+                        Add New Candidates
+                    </Button>
+                </Row>
                 <div>
-                    {candidates.map((it, key) => {
+                    {candidates.map((it : Candidate, key) => {
                         const { imageURL } = it;
-                        return <ImageUploader key={key} url={imageURL} />;
+                        return (
+                            <CandiateArea key={key}>
+                                <CadiateImageArea>
+                                    <ImageUploader
+                                        url={imageURL}
+                                        onDataChanged={(url) => {
+                                            it.imageURL = url;
+                                        }}
+                                    />
+                                </CadiateImageArea>
+                                <CadiateInfoArea>
+                                    <Input
+                                        secondary
+                                        title='Title'
+                                    />
+                                    <Input
+                                        secondary
+                                        title='Description'
+                                    />
+                                </CadiateInfoArea>
+                            </CandiateArea>
+                        );
                     })}
                 </div>
             </Container>
@@ -89,5 +139,8 @@ export default class PollCreate extends PureComponent<Props, State> {
             this.setState({ minVote });
         }
     }
-
+    private addCandiate = () => {
+        const { candidates } = this.state;
+        this.setState({ candidates: [...candidates, {}] });
+    }
 }

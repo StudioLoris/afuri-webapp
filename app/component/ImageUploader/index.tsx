@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import styled, { StyledFunction } from 'styled-components';
 import apiService from '@/service/api';
+import Spinner from '@/UI/Spinner';
 
 const wraper : StyledFunction<{
     src? : string,
@@ -11,7 +12,8 @@ const Image = wraper`
     background-image: url(${(p) => p.src});
     background-position: center center;
     background-size: cover;
-    border: 1px solid black;
+    border: 1px solid #CCC;
+    border-radius: 5px;
     width: 100px;
     height: 100px;
 `;
@@ -26,8 +28,24 @@ const Uploader = styled.input`
     cursor: pointer;
 `;
 
+const Info = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #888;
+`;
+
 interface Props {
     url : string;
+    onDataChanged : (url : string) => void;
 }
 interface State {
     url : string;
@@ -55,8 +73,8 @@ export default class ImageUploader extends PureComponent<Props, State> {
             onMouseLeave={this.toggleHover}
             onClick={this.upload}
           >
-            {(!uploading && (!url || hover)) && <span>Click to Upload</span>}
-            {uploading && <span>Uploading...</span>}
+            {(!uploading && (!url || hover)) && <Info>Upload Image</Info>}
+            {uploading && <Info><Spinner /></Info>}
             <Uploader
                 type='file'
                 onChange={this.upload}
@@ -74,6 +92,10 @@ export default class ImageUploader extends PureComponent<Props, State> {
                 const url = await apiService.imgurUpload(file);
                 if (url) {
                     this.setState({ url, uploading: false });
+                    const { onDataChanged } = this.props;
+                    if (onDataChanged) {
+                        onDataChanged(url);
+                    }
                 }
             });
         }
